@@ -1,0 +1,98 @@
+import React, { useState } from "react";
+import Api from "../../Apiinstance";
+import { useNavigate } from "react-router-dom";
+import LogoIcon from "../src/assets/Icons/LogoIcon.png";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!email.trim() || !password.trim()) {
+      setError("Please enter both email and password!");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+    
+      const adminResponse = await Api.post("admin/login", { email, password });
+
+      if (adminResponse?.data?.success) {
+        navigate("/Slidebar");
+        return;
+      }
+
+
+      const userResponse = await Api.post("user/login", { email, password });
+
+      if (userResponse) {
+        navigate("/Userhome");
+        return;
+      }
+
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-600">
+      <div className="w-full max-w-xs m-auto bg-gray-950 rounded p-5">
+        <header className="flex items-center justify-between mb-6">
+          <h1 className="text-white font-bold text-3xl">Login</h1>
+          <img className="w-12 h-12" src={LogoIcon} alt="Logo Icon" />
+        </header>
+
+        <form onSubmit={handleSubmit} noValidate>
+          <label className="block mb-2 text-yellow-300" htmlFor="email">
+            Email
+          </label>
+          <input
+            className="w-full p-2 mb-6 text-yellow-300 border-b-2 border-yellow-300 outline-none focus:bg-stone-500"
+            type="email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="username"
+            required
+          />
+
+          <label className="block mb-2 text-yellow-300" htmlFor="password">
+            Password
+          </label>
+          <input
+            className="w-full p-2 mb-6 text-yellow-300 border-b-2 border-yellow-300 outline-none focus:bg-stone-500"
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+          />
+
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 px-4 rounded font-bold text-white ${
+              loading
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-yellow-300 hover:bg-gray-700"
+            }`}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}

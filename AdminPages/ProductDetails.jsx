@@ -32,7 +32,7 @@ export default function ProductDetails() {
   return (
     <div className="flex bg-black min-h-screen">
       <Sidebar />
-      <div className="flex flex-col w-full overflow-x-auto shadow-md sm:rounded-lg pt-12 px-6 bg-white dark:bg-gray-900">
+      <div className="flex flex-col w-full overflow-x-auto shadow-md sm:rounded-lg pt-12 px-6 bg-white dark:bg-white">
     
         <div className="flex justify-end mb-4">
           <button

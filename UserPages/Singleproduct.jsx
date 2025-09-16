@@ -21,7 +21,7 @@ export default function SingleProduct() {
         setLoading(false);
       }
     };
-
+    
     takeProduct();
   }, [id]);
 

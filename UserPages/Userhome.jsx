@@ -49,11 +49,11 @@ export default function Userhome() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <button className="relative">
+         <Link to= "/cart"> <button className="relative">
             <img src={Carticon} alt="Cart" className="w-6 h-6" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">3</span>
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full"></span>
           </button>
-
+        </Link>
           <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm">
             Logout
           </button>

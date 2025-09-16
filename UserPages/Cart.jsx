@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Api from "../../Apiinstance";
+import Navbar from "../UserPages/Navbar";
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
-  const [imageErrors, setImageErrors] = useState({});
+  const [editingQuantities, setEditingQuantities] = useState({});
 
   useEffect(() => {
     fetchCart();
@@ -15,119 +14,122 @@ export default function CartPage() {
   const fetchCart = async () => {
     try {
       const res = await Api.get("user/showcart");
-      const items = res.data.cart.cartitems || [];
-      const total = res.data.cart.total || 0;
-      setCartItems(items);
-      setTotalAmount(total);
+      setCartItems(res.data.cart.cartitems);
+      setTotalAmount(res.data.cart.total);
     } catch (err) {
       console.error("Failed to fetch cart", err);
-    } finally {
-      setLoading(false);
     }
   };
 
-  const handleQuantityChange = (index, newQuantity) => {
-    const updatedItems = [...cartItems];
-    updatedItems[index].quantity = newQuantity;
-    setCartItems(updatedItems);
+  const handleQuantityInputChange = (productId, newQty) => {
+    setEditingQuantities(prev => ({
+      ...prev,
+      [productId]: newQty
+    }));
   };
 
-  const updateCartItem = async (productId, quantity) => {
+  const updateItem = async (productId) => {
+    const quantity = editingQuantities[productId];
+    if (!quantity || quantity < 1) {
+      return;
+    }
     try {
-      setUpdating(true);
       await Api.put(`user/updatecart/${productId}`, { quantity });
       await fetchCart();
     } catch (err) {
-      console.error("Failed to update cart item", err);
-    } finally {
-      setUpdating(false);
+      console.error("Failed to update item", err);
     }
   };
 
-  const deleteCartItem = async (productId) => {
+  const deleteItem = async (productId) => {
     try {
       await Api.delete(`user/deletecart/${productId}`);
       await fetchCart();
     } catch (err) {
-      console.error("Failed to delete cart item", err);
+      console.error("Failed to delete item", err);
     }
   };
 
-  if (loading) {
-    return <p className="text-center py-10">Loading cart...</p>;
-  }
-
-  if (cartItems.length === 0) {
-    return <p className="text-center py-10 text-gray-500">Your cart is empty.</p>;
-  }
+  const createOrder = async () => {
+    try {
+      await Api.post("user/createorder");
+      setCartItems([]);
+      setTotalAmount(0);
+    } catch (err) {
+      console.error("Failed to create order", err);
+    }
+  };
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
+    <div className="bg-gray-100 min-h-screen">
+      <Navbar />
+      <div className="max-w-3xl mx-auto p-4">
+        <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
 
-      <ul>
-        {cartItems.map((item, index) => (
-          <li
-            key={item.productId}
-            className="mb-4 p-4 border rounded bg-white s hadow flex gap-4 items-center"
-          >
-        <img
-  src={`http://localhost:9000/${item.product?.productimage}`}
-  alt={item.product?.productname || "Product image"}
-  className="w-24 h-24 object-cover rounded"
-/>
+        {cartItems.length === 0 ? (
+          <p className="text-gray-600 text-center">Your cart is empty.</p>
+        ) : (
+          <>
+            {cartItems.map((item) => {
+              const productId = item.productId;
+              return (
+                <div key={productId} className="bg-white p-4 mb-4 rounded shadow">
+                  <div className="flex gap-4">
+                    <img
+                      src={`http://localhost:9000/${item.product?.productimage}`}
+                      alt={item.product?.productname}
+                      className="w-24 h-24 object-cover rounded"
+                    />
+                    <div className="flex-1">
+                      <p><strong>{item.product?.productname}</strong></p>
+                      <p>Price: ₹{item.price}</p>
+                      <p>Subtotal: ₹{item.subtotal}</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <input
+                          type="number"
+                          value={editingQuantities[productId] ?? item.quantity}
+                          min="1"
+                          onChange={(e) =>
+                            handleQuantityInputChange(productId, Math.max(1, parseInt(e.target.value) || 1))
+                          }
+                          className="border px-2 py-1 w-20"
+                        />
+                        <button
+                          onClick={() => updateItem(productId)}
+                          className="bg-blue-500 text-white px-3 py-1 rounded"
+                        >
+                          Update
+                        </button>
+                        <button
+                          onClick={() => deleteItem(productId)}
+                          className="bg-red-500 text-white px-3 py-1 rounded"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
 
-            <div className="flex-1">
-              <p>
-                <strong>Product:</strong> {item.product?.productname || item.name}
-              </p>
-              <p>
-                <strong>Price:</strong> ₹{item.price}
-              </p>
-
-              <div className="flex items-center gap-2 mt-2">
-                <label>Qty:</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleQuantityChange(
-                      index,
-                      Math.max(1, parseInt(e.target.value) || 1)
-                    )
-                  }
-                  className="border px-2 py-1 w-20"
-                />
-                <button
-                  className="bg-blue-500 text-white px-3 py-1 rounded"
-                  onClick={() => updateCartItem(item.productId, item.quantity)}
-                  disabled={updating}
-                >
-                  {updating ? "Updating..." : "Update"}
-                </button>
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded"
-                  onClick={() => deleteCartItem(item.productId)}
-                >
-                  Delete
-                </button>
-              </div>
-
-              <p className="mt-2">
-                <strong>Subtotal:</strong> ₹{item.subtotal}
-              </p>
+            <div className="flex justify-between items-center mt-6">
+              <button
+                className="bg-green-600 text-white px-4 py-2 rounded"
+                onClick={createOrder}
+              >
+                Checkout
+              </button>
+              <h3 className="text-xl font-semibold">Total: ₹{totalAmount}</h3>
             </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-6 text-right">
-        <h3 className="text-xl font-semibold">Total: ₹{totalAmount}</h3>
+          </>
+        )}
       </div>
     </div>
   );
 }
+
+
 
 
 

@@ -16,6 +16,9 @@ import Homepage from "../AdminPages/Homepage";
 import Cartpage from "../UserPages/Cart";
 import Userlogin from "../UserPages/Userlogin";
 import AdminLiogin from "../AdminPages/Adminlogin";
+import List from "../UserPages/List";
+import Navbar from "../UserPages/Navbar";
+import Userorder from "../UserPages/Userorders";
 
 function App() {
   return (
@@ -34,10 +37,12 @@ function App() {
         <Route path="/updatecategory/:id" element={<UpdateCategory />} />
         <Route path="/registerdetails" element={<RegisterDetails />} />
         <Route path="/userhome" element={<Userhome />} />
-        
+        <Route path="/list" element={<List />} />
         <Route path="/showsingleproduct/:id" element={<SingleProduct />} /> 
-
         <Route path="/cart" element={<Cartpage />} />
+         <Route path="/navbar" element={<Navbar />} />
+         <Route path="/userorders" element={<Userorder />} />
+
       </Routes>
     </>
   );

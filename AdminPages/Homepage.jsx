@@ -3,7 +3,7 @@ import Carticon from "../src/assets/Icons/cart.png";
 import LoginIcon from "../src/assets/Icons/Login.png";
 import Api from "../../Apiinstance";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 
 import Banner1 from "../src/assets/Icons/banner1.jpg";
 import Banner2 from "../src/assets/Icons/banner2.jpg";
@@ -16,18 +16,10 @@ export default function Homepage() {
   const banners = [Banner1, Banner2, Banner3];
   const [currentIndex, setCurrentIndex] = useState(0);
 
+
   useEffect(() => {
     fetchProducts();
   }, []);
-
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-    }, 3000); 
-
-    return () => clearInterval(interval);
-  }, [banners.length]);
 
   const fetchProducts = async () => {
     try {
@@ -38,8 +30,18 @@ export default function Homepage() {
     }
   };
 
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [banners.length]);
+
   const goToProductDetails = (id) => {
-    navigate(`/Singleproducts/${id}`);
+    console.log("Navigating to:", id);
+    navigate(`/showsingleproduct/${id}`);
   };
 
   const goToLogin = () => {
@@ -47,9 +49,9 @@ export default function Homepage() {
   };
 
   return (
-    <div className="bg-gray-100 font-sans min-h-screen">
-      
-      <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center fixed z-40 w-full">
+    <div className="bg-gray-100 font-sans min-h-screen pt-20">
+      {/* Navbar */}
+      <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center fixed z-40 w-full top-0">
         <div className="flex items-center space-x-4">
           <select className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none">
             <option>All Categories</option>
@@ -59,6 +61,7 @@ export default function Homepage() {
             <option>Home</option>
           </select>
         </div>
+
         <div className="flex-grow max-w-md mx-6">
           <input
             type="text"
@@ -67,20 +70,19 @@ export default function Homepage() {
           />
         </div>
 
-        
         <div className="flex items-center space-x-4 relative">
           <button onClick={goToLogin} className="relative">
             <img src={LoginIcon} alt="Login" className="w-6 h-6" />
           </button>
 
-          <button className="relative">
+          <Link to= "/login" > <button className="relative">
             <img src={Carticon} alt="Cart" className="w-6 h-6" />
             <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">3</span>
-          </button>
+          </button></Link>
         </div>
       </nav>
 
-      
+
       <div className="max-w-7xl mx-auto mt-6 px-6">
         <div className="relative w-full overflow-hidden rounded-lg shadow-lg h-64 md:h-80">
           <img
@@ -91,12 +93,12 @@ export default function Homepage() {
         </div>
       </div>
 
-      
+   
       <div className="max-w-7xl mx-auto py-10 px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product, index) => (
           <div
-            onClick={() => goToProductDetails(product._id)}
             key={index}
+            onClick={() => goToProductDetails(product._id)}
             className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
           >
             <img
@@ -111,8 +113,8 @@ export default function Homepage() {
             </span>
             <button
               onClick={(e) => {
-                e.stopPropagation();
-                goToLogin();
+                e.stopPropagation(); 
+                goToLogin(); 
               }}
               className="mt-auto bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
             >
@@ -124,3 +126,4 @@ export default function Homepage() {
     </div>
   );
 }
+

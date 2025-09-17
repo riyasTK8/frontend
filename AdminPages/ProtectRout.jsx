@@ -2,7 +2,7 @@ import React, { Children } from 'react'
 import { Navigate } from 'react-router-dom'
 
 
- const protectedrout = ({Children})=>{
+ const Protectedrout = ({Children})=>{
     const token = localStorage.getItem("token")
 
       if (!token) {
@@ -10,4 +10,4 @@ import { Navigate } from 'react-router-dom'
   }
   return children;
 }
-export default protectedrout
+export default Protectedrout

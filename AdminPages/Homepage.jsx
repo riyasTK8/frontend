@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import Carticon from "../src/assets/Icons/cart.png";
 import LoginIcon from "../src/assets/Icons/Login.png";
 import Api from "../../Apiinstance";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Banner1 from "../src/assets/Icons/banner1.jpg";
 import Banner2 from "../src/assets/Icons/banner2.jpg";
@@ -12,14 +11,11 @@ import Banner3 from "../src/assets/Icons/banner3.jpg";
 export default function Homepage() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
-
-  const banners = [Banner1, Banner2, Banner3];
+  const [category, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const banners = [Banner1, Banner2, Banner3];
 
   const fetchProducts = async () => {
     try {
@@ -30,17 +26,51 @@ export default function Homepage() {
     }
   };
 
+ 
+  const findCategory = async () => {
+    try {
+      const response = await Api.get("/admin/showcategory");
+      setCategory(response.data.categories);
+    } catch (error) {
+      console.error("Can't fetch category", error);
+    }
+  };
+
+
+  const fetchProductByCategory = async (id) => {
+    try {
+      const response = await Api.get(`/user/findproductbycategory/${id}`);
+      setProducts(response.data.products);
+      console.log("Products by category fetched successfully");
+    } catch (error) {
+      console.error("Failed to fetch products by category", error);
+    }
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedId = e.target.value;
+    setSelectedCategory(selectedId);
+
+    if (selectedId === "") {
+      fetchProducts(); 
+    } else {
+      fetchProductByCategory(selectedId); 
+    }
+  };
+
 
   useEffect(() => {
+    fetchProducts();
+    findCategory();
+
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [banners.length]);
+  }, []);
 
   const goToProductDetails = (id) => {
-    console.log("Navigating to:", id);
     navigate(`/showsingleproduct/${id}`);
   };
 
@@ -50,18 +80,8 @@ export default function Homepage() {
 
   return (
     <div className="bg-gray-100 font-sans min-h-screen pt-20">
-      {/* Navbar */}
+   
       <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center fixed z-40 w-full top-0">
-        <div className="flex items-center space-x-4">
-          <select className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none">
-            <option>All Categories</option>
-            <option>Electronics</option>
-            <option>Clothing</option>
-            <option>Books</option>
-            <option>Home</option>
-          </select>
-        </div>
-
         <div className="flex-grow max-w-md mx-6">
           <input
             type="text"
@@ -75,13 +95,14 @@ export default function Homepage() {
             <img src={LoginIcon} alt="Login" className="w-6 h-6" />
           </button>
 
-          <Link to= "/login" > <button className="relative">
-            <img src={Carticon} alt="Cart" className="w-6 h-6" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">3</span>
-          </button></Link>
+          <Link to="/login">
+            <button className="relative">
+              <img src={Carticon} alt="Cart" className="w-6 h-6" />
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">3</span>
+            </button>
+          </Link>
         </div>
       </nav>
-
 
       <div className="max-w-7xl mx-auto mt-6 px-6">
         <div className="relative w-full overflow-hidden rounded-lg shadow-lg h-64 md:h-80">
@@ -93,7 +114,22 @@ export default function Homepage() {
         </div>
       </div>
 
-   
+      <div className="flex flex-wrap items-center space-x-4 px-6 mt-10 mb-8">
+        <select
+          onChange={handleCategoryChange}
+          value={selectedCategory}
+          className="border border-gray-300 bg-white text-gray-700 text-base font-medium px-2 py-1 rounded focus:outline-none cursor-pointer"
+        >
+          <option value="">All Categories</option>
+          {category.map((cat, index) => (
+            <option key={index} value={cat._id}>
+              {cat.categoryname}
+            </option>
+          ))}
+        </select>
+      </div>
+
+ 
       <div className="max-w-7xl mx-auto py-10 px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product, index) => (
           <div
@@ -113,8 +149,8 @@ export default function Homepage() {
             </span>
             <button
               onClick={(e) => {
-                e.stopPropagation(); 
-                goToLogin(); 
+                e.stopPropagation();
+                goToLogin();
               }}
               className="mt-auto bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
             >
@@ -126,4 +162,5 @@ export default function Homepage() {
     </div>
   );
 }
+
 

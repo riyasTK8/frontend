@@ -35,7 +35,7 @@ export default function CategoryDetails() {
     try {
       const res = await Api.delete(`/admin/deletecategory/${id}`);
       if (res.status === 200) {
-        fetchCategories(); // Refresh list
+        fetchCategories(); 
       } else {
         alert("Failed to delete category.");
       }
@@ -48,7 +48,7 @@ export default function CategoryDetails() {
   return (
     <div className="flex bg-black min-h-screen">
       <Sidebar />
-      <div className="flex flex-col w-full overflow-x-auto shadow-md sm:rounded-lg pt-12 px-6 bg-white dark:bg-gray-900">
+      <div className="flex flex-col w-full overflow-x-auto shadow-md sm:rounded-lg pt-12 px-6 bg-white dark:bg-white-900">
         {/* Add Category Button */}
         <div className="flex justify-end mb-4">
           <button
@@ -59,7 +59,7 @@ export default function CategoryDetails() {
           </button>
         </div>
 
-        {/* Content Section */}
+   
         {loading ? (
           <div className="text-center text-gray-500 py-10">Loading categories...</div>
         ) : error ? (

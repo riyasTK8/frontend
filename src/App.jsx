@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import protectedrout from "../AdminPages/ProtectRout";
 
 import SlideBar from "../AdminPages/SideBar";
 import ProductDetails from "../AdminPages/ProductDetails";
@@ -18,7 +19,13 @@ import Userlogin from "../UserPages/Userlogin";
 import AdminLiogin from "../AdminPages/Adminlogin";
 import List from "../UserPages/List";
 import Navbar from "../UserPages/Navbar";
-import Userorder from "../UserPages/Userorders";
+import Orderdetails from "../UserPages/Userorders";
+import Userdetails from "../AdminPages/Userdetails";
+import Allorders from "../AdminPages/Allorders";
+ import Userlogout from "../UserPages/Logout";
+
+
+
 
 function App() {
   return (
@@ -28,6 +35,9 @@ function App() {
         <Route path="/login" element={<Userlogin />} />
         <Route path="/register" element={<RegisterDetails />} />
         <Route path="/adminlogin" element={<AdminLiogin />} />
+        <Route path="/registerdetails" element={<RegisterDetails />} />
+        <Route path="/registerdetails" element={<RegisterDetails />} />
+
         <Route path="/slidebar" element={<SlideBar />} />
         <Route path="/productdetails" element={<ProductDetails />} />
         <Route path="/addproduct" element={<AddProduct />} />
@@ -35,13 +45,16 @@ function App() {
         <Route path="/categorydetails" element={<CategoryDetails />} />
         <Route path="/addcategory" element={<AddCategory />} />
         <Route path="/updatecategory/:id" element={<UpdateCategory />} />
-        <Route path="/registerdetails" element={<RegisterDetails />} />
+      
         <Route path="/userhome" element={<Userhome />} />
-        <Route path="/list" element={<List />} />
         <Route path="/showsingleproduct/:id" element={<SingleProduct />} /> 
         <Route path="/cart" element={<Cartpage />} />
          <Route path="/navbar" element={<Navbar />} />
-         <Route path="/userorders" element={<Userorder />} />
+         <Route path="/userorders" element={<Orderdetails />} />
+        <Route path="/userdetails" element={<Userdetails />} />
+         <Route path="/adminorders" element={<Allorders />} />
+        { <Route path="/userlogout" element={<Userlogout />} /> }
+       
 
       </Routes>
     </>
@@ -49,3 +62,5 @@ function App() {
 }
 
 export default App;
+
+

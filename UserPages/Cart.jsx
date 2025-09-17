@@ -76,7 +76,7 @@ export default function CartPage() {
                 <div key={productId} className="bg-white p-4 mb-4 rounded shadow">
                   <div className="flex gap-4">
                     <img
-                      src={`http://localhost:9000/${item.product?.productimage}`}
+                      src={`http://localhost:9000/${item.productimage}`}
                       alt={item.product?.productname}
                       className="w-24 h-24 object-cover rounded"
                     />

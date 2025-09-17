@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import Carticon from '../src/assets/Icons/cart.png';
 import Api from "../../Apiinstance";
 import { Link,useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 export default function Userhome() {
     const nav = useNavigate()
   const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   function details(id){
     console.log(id);
     
@@ -14,7 +17,9 @@ export default function Userhome() {
   }
 
   useEffect(() => {
-    takeProducts();
+    takeProducts()
+    findCategory()
+    fetchProductByCategory();
   }, []);
 
   const takeProducts = async () => {
@@ -27,38 +32,58 @@ export default function Userhome() {
     }
   };
 
+    const findCategory = async () => {
+    try {
+      const response = await Api.get("/admin/showcategory");
+      setCategory(response.data.categories);
+    } catch (error) {
+      console.error("Can't fetch category", error);
+    }
+  };
+
+
+    const fetchProductByCategory = async (id) => {
+    try {
+      const response = await Api.get(`/user/findproductbycategory/${id}`);
+      setProducts(response.data.products);
+      console.log("Products by category fetched successfully");
+    } catch (error) {
+      console.error("Failed to fetch products by category", error);
+    }
+  };
+
+  const handleCategoryChange = (e) => {
+    const selectedId = e.target.value;
+    setSelectedCategory(selectedId);
+
+    if (selectedId === "") {
+      takeProducts(); 
+    } else {
+      fetchProductByCategory(selectedId); 
+    }
+  };
+
+
   return (
     <div className="bg-gray-100 font-sans min-h-screen">
-      <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <select className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none">
-            <option>All Categories</option>
-            <option>Electronics</option>
-            <option>Clothing</option>
-            <option>Books</option>
-            <option>Home</option>
-          </select>
-        </div>
+        <Navbar />
+      
 
-        <div className="flex-grow max-w-md mx-6">
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
+            <div className="flex flex-wrap items-center space-x-4 px-6 mt-10 mb-8">
+        <select
+          onChange={handleCategoryChange}
+          value={selectedCategory}
+          className="border border-gray-300 bg-white text-gray-700 text-base font-medium px-2 py-1 rounded focus:outline-none cursor-pointer"
+        >
+          <option value="">All Categories</option>
+          {category.map((cat, index) => (
+            <option key={index} value={cat._id}>
+              {cat.categoryname}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        <div className="flex items-center space-x-4">
-         <Link to= "/cart"> <button className="relative">
-            <img src={Carticon} alt="Cart" className="w-6 h-6" />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full"></span>
-          </button>
-        </Link>
-          <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm">
-            Logout
-          </button>
-        </div>
-      </nav>
 
       <div className="max-w-7xl mx-auto py-10 px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((element, index) => (

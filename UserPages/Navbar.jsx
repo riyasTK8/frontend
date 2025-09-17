@@ -1,56 +1,51 @@
 import React from "react";
-import Carticon from "../src/assets/Icons/cart.png"
+import Carticon from "../src/assets/Icons/cart.png";
 import { Link } from "react-router-dom";
+import Api from "../../Apiinstance";
+import { useState } from "react";
+import { useEffect } from "react";
+
 
 const Navbar = () => {
+    
   return (
-    <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-      <div className="flex items-center space-x-4">
-        <select className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none">
-          <option>All Categories</option>
-          <option>Electronics</option>
-          <option>Clothing</option>
-          <option>Books</option>
-          <option>Home</option>
-        </select>
-      </div>
+    <nav className="bg-white shadow-md px-8 py-3 flex justify-between items-center sticky top-0 z-50">
+      
+      
 
-      <div className="flex-grow max-w-md mx-6">
+      
+      <div className="flex-grow max-w-lg mx-8">
         <input
           type="text"
           placeholder="Search products..."
-          className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full border border-gray-200 rounded-full px-5 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-50"
         />
       </div>
 
-      <div className="flex items-center space-x-4" >
-            <Link to="/Userhome" ><button className="relative text-amber-50 bg-blue-700 h-[37px] w-[70px] rounded-[5px]">
-             Home
-        </button>
-        </Link> 
-
-        
-    
-
-       <Link to="/cart" ><button className="relative">
-          <img src={Carticon} alt="Cart" className="w-6 h-6" />
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-1 rounded-full">
       
+      <div className="flex items-center space-x-8">
+        <Link to="/Userhome" className="text-gray-600 hover:text-blue-600 font-medium transition duration-200">
+          Home
+        </Link>
+
+        <Link to="/cart" className="relative group">
+          <img src={Carticon} alt="Cart" className="w-6 h-6 inline" />
+          <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-1 rounded-full group-hover:scale-110 transition">
+            3
           </span>
-        </button></Link>
+        </Link>
 
-
-          <Link to="/userorders"><button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 text-sm">
+        <Link to="/userorders" className="text-gray-600 hover:text-green-600 font-medium transition duration-200">
           Your Orders
-        </button></Link> 
+        </Link>
 
-
-        <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 text-sm">
+        <Link to="/userlogout" ><button className="text-gray-600 hover:text-red-500 font-medium transition duration-200 border-none bg-transparent cursor-pointer">
           Logout
-        </button>
+        </button></Link>
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+

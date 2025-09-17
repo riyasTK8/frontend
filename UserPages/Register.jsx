@@ -6,6 +6,8 @@ import Api from "../../Apiinstance";
 export default function RegisterDetails() {
   const [name, setname] = useState("");
   const [phone, setphone] = useState("");
+  const [age,setage] = useState("")
+  const [place,setplace] = useState("")
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const navigate = useNavigate();
@@ -18,6 +20,8 @@ export default function RegisterDetails() {
       const response = await Api.post("user/signup", {
         name,
         phone,
+        age,
+        place,
         email,
         password,
       });
@@ -76,6 +80,39 @@ export default function RegisterDetails() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
           </div>
+             
+          <div>
+            <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Your age
+            </label>
+            <input
+              id="agee"
+              type="number"
+              value={age}
+              onChange={(e) => setage(e.target.value)}
+              placeholder="Enter your age"
+              required
+        
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
+             
+          <div>
+            <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              Your Place
+            </label>
+            <input
+              id="place"
+              type="tel"
+              value={place}
+              onChange={(e) => setplace(e.target.value)}
+              placeholder="Enter your place"
+              required
+              
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+          </div>
 
 
           <div>
@@ -130,3 +167,4 @@ export default function RegisterDetails() {
     </section>
   );
 }
+

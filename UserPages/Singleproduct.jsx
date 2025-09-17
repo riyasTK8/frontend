@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Api from "../../Apiinstance";
 import CartIcon from "../src/assets/Icons/cart.png";
+import Navbar from "./Navbar";
 
 export default function SingleProduct() {
   const { id } = useParams(); 
@@ -49,20 +50,8 @@ export default function SingleProduct() {
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans">
-      <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
-        <div>
-          <select className="border px-3 py-1 rounded text-sm">
-            <option>All Categories</option>
-            <option>Electronics</option>
-            <option>Clothing</option>
-          </select>
-        </div>
-        <input className="border px-4 py-2 rounded w-1/3" placeholder="Search products..." />
-        <div className="flex items-center space-x-4">
-          <img src={CartIcon} alt="Cart" className="w-6 h-6 cursor-pointer" onClick={() => navigate("/cart")} />
-          <button className="bg-red-500 text-white px-4 py-2 rounded text-sm">Logout</button>
-        </div>
-      </nav>
+        <Navbar />
+     
 
       <div className="max-w-5xl mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden md:flex">
         <img

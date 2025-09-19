@@ -27,10 +27,14 @@ export default function AddCategory() {
   };
 
   return (
-    <div className="flex bg-black min-h-screen text-white">
+    <div className="bg-black min-h-screen text-white">
+      
       <Sidebar />
-      <div className="flex-1 p-10 bg-gray-900">
+
+   
+      <div className="ml-64 p-10 bg-gray-900 min-h-screen">
         <h1 className="text-3xl font-bold mb-6">Add New Category</h1>
+
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block mb-2 text-sm font-medium">Category Name</label>

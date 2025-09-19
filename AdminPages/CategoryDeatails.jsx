@@ -35,7 +35,7 @@ export default function CategoryDetails() {
     try {
       const res = await Api.delete(`/admin/deletecategory/${id}`);
       if (res.status === 200) {
-        fetchCategories(); 
+        fetchCategories();
       } else {
         alert("Failed to delete category.");
       }
@@ -46,9 +46,12 @@ export default function CategoryDetails() {
   };
 
   return (
-    <div className="flex bg-black min-h-screen">
+    <div className="bg-black min-h-screen">
+  
       <Sidebar />
-      <div className="flex flex-col w-full overflow-x-auto shadow-md sm:rounded-lg pt-12 px-6 bg-white dark:bg-white-900">
+
+    
+      <div className="ml-64 px-6 pt-12 bg-white min-h-screen dark:bg-gray-900">
         {/* Add Category Button */}
         <div className="flex justify-end mb-4">
           <button
@@ -59,17 +62,17 @@ export default function CategoryDetails() {
           </button>
         </div>
 
-   
+       
         {loading ? (
           <div className="text-center text-gray-500 py-10">Loading categories...</div>
         ) : error ? (
           <div className="text-center text-red-500 py-10">{error}</div>
         ) : (
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <caption className="p-5 text-lg font-semibold text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+          <table className="w-full text-sm text-left text-gray-700 dark:text-gray-300">
+            <caption className="p-5 text-lg font-semibold text-gray-900 dark:text-white">
               Category Details
             </caption>
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-300">
               <tr>
                 <th className="px-6 py-3">Category Name</th>
                 <th className="px-6 py-3">Description</th>
@@ -83,7 +86,7 @@ export default function CategoryDetails() {
                     key={category._id}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                   >
-                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
                       {category.categoryname}
                     </td>
                     <td className="px-6 py-4">{category.categorydescription}</td>
@@ -117,3 +120,4 @@ export default function CategoryDetails() {
     </div>
   );
 }
+

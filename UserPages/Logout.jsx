@@ -9,8 +9,9 @@ export default function Userlogout() {
   const handleLogoutDecision = async (decision) => {
     if (decision === "yes") {
       try {
-        const response = await Api.post("/user/logout"); // Logout API call
+        const response = await Api.post("/user/logout"); 
         console.log(response.data.message);
+        localStorage.removeItem("user")
         navigate("/"); 
       } catch (error) {
         console.error("Logout failed", error);

@@ -9,7 +9,7 @@ export default function AddProduct() {
   const [productname, setProductName] = useState("");
   const [productprice, setProductPrice] = useState("");
   const [productimage, setProductImage] = useState(null);
-  const [productcategory, setProductCategory] = useState(""); // now will be category ID
+  const [productcategory, setProductCategory] = useState("");
   const [productdescription, setProductDescription] = useState("");
 
   const handleSubmit = async (e) => {
@@ -18,7 +18,7 @@ export default function AddProduct() {
     const formData = new FormData();
     formData.append("productname", productname);
     formData.append("productprice", productprice);
-    formData.append("productcategory", productcategory); // ID
+    formData.append("productcategory", productcategory);
     formData.append("productdescription", productdescription);
     formData.append("productimage", productimage);
 
@@ -43,8 +43,12 @@ export default function AddProduct() {
 
   return (
     <div className="flex bg-black min-h-screen text-white">
-      <Slidebar />
-      <div className="flex-1 p-10 bg-gray-900">
+      {/* Sidebar with fixed width */}
+      <div className="w-64 bg-gray-800">
+        <Slidebar />
+      </div>
+
+      <div className="flex-1 p-10 bg-gray-900 overflow-auto">
         <h1 className="text-3xl font-bold mb-6">Add New Product</h1>
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>

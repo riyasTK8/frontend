@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./SideBar";
-import Api from "../../Apiinstance"; 
+import Api from "../../Apiinstance";
 
 export default function UpdateCategory() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function UpdateCategory() {
     e.preventDefault();
 
     try {
-      const res = await Api.put(`/admin/updatecategory/${id}`, {
+      await Api.put(`/admin/updatecategory/${id}`, {
         categoryname,
         categorydescription,
       });
@@ -44,9 +44,9 @@ export default function UpdateCategory() {
   };
 
   return (
-    <div className="flex bg-black min-h-screen text-white">
+    <div className="bg-black min-h-screen text-white">
       <Sidebar />
-      <div className="flex-1 p-10 bg-gray-900">
+      <div className="ml-64 p-10 bg-gray-900 min-h-screen">
         <h1 className="text-3xl font-bold mb-6">Update Category</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -82,3 +82,4 @@ export default function UpdateCategory() {
     </div>
   );
 }
+

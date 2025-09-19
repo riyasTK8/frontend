@@ -31,7 +31,7 @@ const Navbar = () => {
         <Link to="/cart" className="relative group">
           <img src={Carticon} alt="Cart" className="w-6 h-6 inline" />
           <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold px-1 rounded-full group-hover:scale-110 transition">
-            3
+            
           </span>
         </Link>
 

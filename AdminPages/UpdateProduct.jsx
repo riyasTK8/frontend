@@ -22,7 +22,7 @@ export default function UpdateProduct() {
 
         setProductName(product.productname);
         setProductPrice(product.productprice);
-        setProductId(product.productcategory); 
+        setProductId(product.productcategory);
         setProductDescription(product.productdescription);
         setExistingImage(product.productimage);
       } catch (err) {
@@ -40,7 +40,7 @@ export default function UpdateProduct() {
     const formData = new FormData();
     formData.append("productname", productname);
     formData.append("productprice", productprice);
-    formData.append("productcategory", productid); 
+    formData.append("productcategory", productid);
     formData.append("productdescription", productdescription);
     if (productimage) {
       formData.append("productimage", productimage);
@@ -67,9 +67,9 @@ export default function UpdateProduct() {
   };
 
   return (
-    <div className="flex bg-black min-h-screen text-white">
+    <div className="bg-black min-h-screen text-white">
       <Slidebar />
-      <div className="flex-1 p-10 bg-gray-900">
+      <div className="ml-64 p-10 bg-gray-900 min-h-screen">
         <h1 className="text-3xl font-bold mb-6">Update Product</h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -149,3 +149,4 @@ export default function UpdateProduct() {
     </div>
   );
 }
+

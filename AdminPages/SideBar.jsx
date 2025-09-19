@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import LogoIcon from "../src/assets/Icons/LogoIcon.png";
 import HomeIcon from "../src/assets/Icons/HomeIcon.png";
@@ -10,6 +10,23 @@ import OrderIcon from "../src/assets/Icons/order.png";
 import LogoutIcon from "../src/assets/Icons/Logout.png";
 
 export default function Slidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+     
+      localStorage.removeItem("admin");
+
+   
+      navigate("/");
+
+      console.log("Logout successful.");
+    } catch (error) {
+      console.error("Logout failed", error);
+      alert("Logout failed. Try again.");
+    }
+  };
+
   return (
     <div className="fixed top-0 left-0 h-screen w-64 bg-gradient-to-b from-gray-900 to-black shadow-lg z-50 flex flex-col justify-between">
 
@@ -48,14 +65,16 @@ export default function Slidebar() {
         </Link>
       </div>
 
-  
+      
       <div className="mb-10">
-        <div className="flex items-center pl-5 gap-4 hover:bg-red-700 cursor-pointer transition-all duration-200 rounded-r-full pr-4 py-2">
+        <button
+          onClick={handleLogout}
+          className="flex items-center w-full pl-5 gap-4 hover:bg-red-700 cursor-pointer transition-all duration-200 rounded-r-full pr-4 py-2"
+        >
           <img src={LogoutIcon} className="h-8 w-8 object-contain" alt="LogoutIcon" />
-          <h1 className="text-white text-lg font-medium">Logout</h1>
-        </div>
+          <span className="text-white text-lg font-medium">Logout</span>
+        </button>
       </div>
     </div>
   );
 }
-

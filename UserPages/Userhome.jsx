@@ -4,7 +4,9 @@ import Api from "../../Apiinstance";
 import { Link,useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 
+
 export default function Userhome() {
+    
     const nav = useNavigate()
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
@@ -23,6 +25,7 @@ export default function Userhome() {
   }, []);
 
   const takeProducts = async () => {
+  
     try {
       const response = await Api.get("admin/showproducts");
       setProducts(response.data.products);

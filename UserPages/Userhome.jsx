@@ -49,6 +49,8 @@ export default function Userhome() {
     try {
       const response = await Api.get(`/user/findproductbycategory/${id}`);
       setProducts(response.data.products);
+      console.log(response);
+      
       console.log("Products by category fetched successfully");
     } catch (error) {
       console.error("Failed to fetch products by category", error);

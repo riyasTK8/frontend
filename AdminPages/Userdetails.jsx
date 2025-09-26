@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Api from "../../Apiinstance.jsx";
+import Api from "../globel/Apiinstance.jsx";
 import Slidebar from "./SideBar";
 
 export default function Userdetails() {

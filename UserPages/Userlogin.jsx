@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Api from "../../Apiinstance.jsx";
+import Api from "../globel/Apiinstance.jsx";
 
 export default function Userlogin() {
   const [email, setEmail] = useState("");

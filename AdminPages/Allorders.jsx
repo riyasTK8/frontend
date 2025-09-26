@@ -12,7 +12,14 @@ export default function Allorders() {
   const fetchOrders = async () => {
     try {
       const { data } = await Api.get("/admin/findallorders");
-      setOrders(data.allorders || []);
+      
+      // ✅ Sanitize each order to ensure items is always an array
+      const safeOrders = (data.allorders || []).map(order => ({
+        ...order,
+        items: Array.isArray(order.items) ? order.items : []
+      }));
+
+      setOrders(safeOrders);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
     }
@@ -24,7 +31,7 @@ export default function Allorders() {
         await Api.put(`/admin/updateorder/${orderId}`, {
           orderStatus: "delivered"
         });
-        fetchOrders();
+        fetchOrders(); // refresh orders
       } catch (error) {
         console.error("Update failed:", error);
       }
@@ -51,49 +58,51 @@ export default function Allorders() {
               </tr>
             </thead>
             <tbody className="text-sm text-gray-700">
-              {orders.map((order) => (
-                <React.Fragment key={order._id}>
-                  {order.items.map((item, index) => (
-                    <tr key={`${order._id}-${index}`} className="hover:bg-gray-50 transition">
-                      <td className="py-3 px-4 border">{order._id}</td>
-                      <td className="py-3 px-4 border">{order.userId}</td>
-                      <td className="py-3 px-4 border">{item.productName}</td>
-                      <td className="py-3 px-4 border">₹{item.productPrice.toLocaleString()}</td>
-                      <td className="py-3 px-4 border">{item.quantity}</td>
-                      <td className="py-3 px-4 border">₹{item.subtotal.toLocaleString()}</td>
-                      <td className="py-3 px-4 border">
-                        {new Date(order.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
 
-                  <tr className="bg-gray-100 font-medium text-gray-800">
-                    <td colSpan="5" className="py-3 px-4 border text-right">Order Total:</td>
-                    <td className="py-3 px-4 border">₹{order.total.toLocaleString()}</td>
-                    <td className="py-3 px-4 border">
-                      <button
-                        className={`w-full py-1 px-2 rounded text-sm font-semibold ${
-                          order.deliveryStatus === "pending"
-                            ? "bg-orange-500 text-white hover:bg-orange-600"
-                            : "bg-green-600 text-white cursor-not-allowed"
-                        }`}
-                        onClick={() => handleStatusUpdate(order._id, order.deliveryStatus)}
-                        disabled={order.deliveryStatus === "delivered"}
-                      >
-                        {order.deliveryStatus}
-                      </button>
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
-
-              {orders.length === 0 && (
+              {orders.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="text-center py-6 text-gray-500">
                     No orders found.
                   </td>
                 </tr>
+              ) : (
+                orders.map(order => (
+                  <React.Fragment key={order._id}>
+                    {order.items.map((item, index) => (
+                      <tr key={`${order._id}-${index}`} className="hover:bg-gray-50 transition">
+                        <td className="py-3 px-4 border">{order._id}</td>
+                        <td className="py-3 px-4 border">{order.userId}</td>
+                        <td className="py-3 px-4 border">{item.productName}</td>
+                        <td className="py-3 px-4 border">₹{item.productPrice?.toLocaleString()}</td>
+                        <td className="py-3 px-4 border">{item.quantity}</td>
+                        <td className="py-3 px-4 border">₹{item.subtotal?.toLocaleString()}</td>
+                        <td className="py-3 px-4 border">
+                          {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : "N/A"}
+                        </td>
+                      </tr>
+                    ))}
+
+                    <tr className="bg-gray-100 font-medium text-gray-800">
+                      <td colSpan="5" className="py-3 px-4 border text-right">Order Total:</td>
+                      <td className="py-3 px-4 border">₹{order.total?.toLocaleString()}</td>
+                      <td className="py-3 px-4 border">
+                        <button
+                          className={`w-full py-1 px-2 rounded text-sm font-semibold ${
+                            order.deliveryStatus === "pending"
+                              ? "bg-orange-500 text-white hover:bg-orange-600"
+                              : "bg-green-600 text-white cursor-not-allowed"
+                          }`}
+                          onClick={() => handleStatusUpdate(order._id, order.deliveryStatus)}
+                          disabled={order.deliveryStatus === "delivered"}
+                        >
+                          {order.deliveryStatus}
+                        </button>
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                ))
               )}
+
             </tbody>
           </table>
         </div>
@@ -101,6 +110,7 @@ export default function Allorders() {
     </div>
   );
 }
+
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./SideBar";
-import Api from "../../Apiinstance";
+import Api from "../../Apiinstance.jsx";
 
 export default function ProductDetails() {
   const [products, setProducts] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Carticon from "../src/assets/Icons/cart.png";
 import { Link, useNavigate } from "react-router-dom";
-import Api from "../../Apiinstance";
+import Api from "../../Apiinstance.jsx";
 
 const Navbar = () => {
   const navigate = useNavigate();

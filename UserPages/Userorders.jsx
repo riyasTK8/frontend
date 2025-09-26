@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
-import Api from '../../Apiinstance';
+import Api from '../../Apiinstance.jsx';
 
 export default function Orderdetails() {
   const [orders, setOrders] = useState([]);

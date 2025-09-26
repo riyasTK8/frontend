@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Carticon from '../src/assets/Icons/cart.png';
-import Api from "../../Apiinstance";
+import Api from "../../Apiinstance.jsx";
 import { Link,useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 

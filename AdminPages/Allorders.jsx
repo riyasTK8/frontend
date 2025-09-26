@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Api from '../../Apiinstance';
+import Api from '../../Apiinstance.jsx';
 import Slidebar from './SideBar';
 
 export default function Allorders() {

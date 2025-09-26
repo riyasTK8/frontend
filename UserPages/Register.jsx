@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Api from "../globel/Apiinstance.jsx";
+import Api from "../global/Apiinstance.jsx";
 
 
 export default function RegisterDetails() {

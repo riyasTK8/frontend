@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Api from "../globel/Apiinstance.jsx";
+import Api from "../global/Apiinstance.jsx";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 

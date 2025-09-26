@@ -1,7 +1,7 @@
 // src/AdminPages/AdminLogin.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Api from "../globel/Apiinstance.jsx";
+import Api from "../global/Apiinstance.jsx";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");

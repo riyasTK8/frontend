@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import Api from '../globel/Apiinstance.jsx'
+import Api from '../global/Apiinstance.jsx'
 import { data } from 'react-router-dom'
 
 

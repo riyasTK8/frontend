@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Api from "../globel/Apiinstance.jsx";
+import Api from "../global/Apiinstance.jsx";
 import Navbar from "../UserPages/Navbar";
 
 export default function CartPage() {

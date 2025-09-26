@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./SideBar";
-import Api from "../globel/Apiinstance.jsx";
+import Api from "../global/Apiinstance";
 
 export default function CategoryDetails() {
   const [categories, setCategories] = useState([]);

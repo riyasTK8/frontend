@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Carticon from "../src/assets/Icons/cart.png";
 import LoginIcon from "../src/assets/Icons/Login.png";
-import Api from "../globel/Apiinstance.jsx";
+import Api from "../global/Apiinstance.jsx";
 import { useNavigate, Link } from "react-router-dom";
 
 import Banner1 from "../src/assets/Icons/banner1.jpg";

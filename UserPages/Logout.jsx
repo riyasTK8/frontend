@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Api from "../globel/Apiinstance.jsx"; 
+import Api from "../global/Apiinstance.jsx"; 
 import Navbar from "./Navbar";
 
 export default function Userlogout() {

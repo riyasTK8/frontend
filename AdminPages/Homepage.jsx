@@ -23,7 +23,11 @@ export default function Homepage() {
   // Fetch all products
   const fetchProducts = async () => {
     try {
+      console.log("inside fetch product");
+      
       const response = await Api.get("/admin/showproducts");
+      console.log(response.data);
+      
       setProducts(response?.data?.products || []);
     } catch (error) {
       console.error("Failed to fetch products", error);

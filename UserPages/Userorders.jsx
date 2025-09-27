@@ -36,30 +36,29 @@ export default function Orderdetails() {
               <th className="py-2 px-4 border-b">Order Date</th>
             </tr>
           </thead>
-          <tbody>
-            {orders.map((order, orderIndex) =>
-              order.items.map((item, itemIndex) => (
-                <tr key={item._id || `${orderIndex}-${itemIndex}`}>
-                  <td className="py-2 px-4 border-b">{orderIndex + 1}</td>
-                  <td className="py-2 px-4 border-b">{item.productName}</td>
-                  <td className="py-2 px-4 border-b">₹{item.productPrice}</td>
-                  <td className="py-2 px-4 border-b">{item.quantity}</td>
-                  <td className="py-2 px-4 border-b">₹{item.subtotal}</td>
-                  <td className="py-2 px-4 border-b">{order.deliveryStatus}</td>
-                  <td className="py-2 px-4 border-b">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </td>
-                </tr>
-              )).concat([
-                <tr key={`total-${order._id || orderIndex}`} className="font-bold bg-gray-200">
-                  <td colSpan="4" className="text-right py-2 px-4">Total:</td>
-                  <td className="py-2 px-4">₹{order.total}</td>
-                  <td colSpan="2"></td>
-                </tr>
-              ])
-            )}
-          </tbody>
-        </table>
+<tbody>
+  {orders.map((order, orderIndex) =>
+    (order.items || []).map((item, itemIndex) => (
+      <tr key={item._id || `${orderIndex}-${itemIndex}`}>
+        <td className="py-2 px-4 border-b">{orderIndex + 1}</td>
+        <td className="py-2 px-4 border-b">{item.productName}</td>
+        <td className="py-2 px-4 border-b">₹{item.productPrice}</td>
+        <td className="py-2 px-4 border-b">{item.quantity}</td>
+        <td className="py-2 px-4 border-b">₹{item.subtotal}</td>
+        <td className="py-2 px-4 border-b">{order.deliveryStatus}</td>
+        <td className="py-2 px-4 border-b">
+          {new Date(order.createdAt).toLocaleDateString()}
+        </td>
+      </tr>
+    )).concat([
+      <tr key={`total-${order._id || orderIndex}`} className="font-bold bg-gray-200">
+        <td colSpan="4" className="text-right py-2 px-4">Total:</td>
+        <td className="py-2 px-4">₹{order.total}</td>
+        <td colSpan="2"></td>
+      </tr>
+    ])
+  )}
+</tbody>        </table>
       </div>
     </div>
   );

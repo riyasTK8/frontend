@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+
 import Carticon from "../src/assets/Icons/cart.png";
 import LoginIcon from "../src/assets/Icons/Login.png";
-import Api from "../global/Apiinstance.jsx";
-import { useNavigate, Link } from "react-router-dom";
 
 import Banner1 from "../src/assets/Icons/banner1.jpg";
 import Banner2 from "../src/assets/Icons/banner2.jpg";
 import Banner3 from "../src/assets/Icons/banner3.jpg";
 
+import Api from "../global/Apiinstance.jsx";
+
 export default function Homepage() {
   const navigate = useNavigate();
+
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -17,33 +20,36 @@ export default function Homepage() {
 
   const banners = [Banner1, Banner2, Banner3];
 
+  // Fetch all products
   const fetchProducts = async () => {
     try {
-      const response = await Api.get("admin/showproducts");
-      setProducts(response.data.products);
+      const response = await Api.get("/admin/showproducts");
+      setProducts(response?.data?.products || []);
     } catch (error) {
       console.error("Failed to fetch products", error);
+      setProducts([]); // fallback
     }
   };
 
- 
-  const findCategory = async () => {
+  // Fetch categories
+  const fetchCategories = async () => {
     try {
       const response = await Api.get("/admin/showcategory");
-      setCategory(response.data.categories);
+      setCategory(response?.data?.categories || []);
     } catch (error) {
-      console.error("Can't fetch category", error);
+      console.error("Can't fetch categories", error);
+      setCategory([]); // fallback
     }
   };
 
-
+  // Fetch products by selected category
   const fetchProductByCategory = async (id) => {
     try {
       const response = await Api.get(`/user/findproductbycategory/${id}`);
-      setProducts(response.data.products);
-      console.log("Products by category fetched successfully");
+      setProducts(response?.data?.products || []);
     } catch (error) {
       console.error("Failed to fetch products by category", error);
+      setProducts([]); // fallback
     }
   };
 
@@ -52,16 +58,15 @@ export default function Homepage() {
     setSelectedCategory(selectedId);
 
     if (selectedId === "") {
-      fetchProducts(); 
+      fetchProducts();
     } else {
-      fetchProductByCategory(selectedId); 
+      fetchProductByCategory(selectedId);
     }
   };
 
-
   useEffect(() => {
     fetchProducts();
-    findCategory();
+    fetchCategories();
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
@@ -80,8 +85,9 @@ export default function Homepage() {
 
   return (
     <div className="bg-gray-100 font-sans min-h-screen pt-20">
-   
+      {/* Navbar */}
       <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center fixed z-40 w-full top-0">
+        {/* Search */}
         <div className="flex-grow max-w-md mx-6">
           <input
             type="text"
@@ -90,6 +96,7 @@ export default function Homepage() {
           />
         </div>
 
+        {/* Icons */}
         <div className="flex items-center space-x-4 relative">
           <button onClick={goToLogin} className="relative">
             <img src={LoginIcon} alt="Login" className="w-6 h-6" />
@@ -104,6 +111,7 @@ export default function Homepage() {
         </div>
       </nav>
 
+      {/* Banner Carousel */}
       <div className="max-w-7xl mx-auto mt-6 px-6">
         <div className="relative w-full overflow-hidden rounded-lg shadow-lg h-64 md:h-80">
           <img
@@ -114,6 +122,7 @@ export default function Homepage() {
         </div>
       </div>
 
+      {/* Category Dropdown */}
       <div className="flex flex-wrap items-center space-x-4 px-6 mt-10 mb-8">
         <select
           onChange={handleCategoryChange}
@@ -121,19 +130,19 @@ export default function Homepage() {
           className="border border-gray-300 bg-white text-gray-700 text-base font-medium px-2 py-1 rounded focus:outline-none cursor-pointer"
         >
           <option value="">All Categories</option>
-          {category.map((cat, index) => (
-            <option key={index} value={cat._id}>
+          {(category || []).map((cat) => (
+            <option key={cat._id} value={cat._id}>
               {cat.categoryname}
             </option>
           ))}
         </select>
       </div>
 
- 
+      {/* Product Grid */}
       <div className="max-w-7xl mx-auto py-10 px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product, index) => (
+        {(products || []).map((product) => (
           <div
-            key={index}
+            key={product._id}
             onClick={() => goToProductDetails(product._id)}
             className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
           >
@@ -145,7 +154,7 @@ export default function Homepage() {
             <h3 className="text-lg font-semibold mb-1">{product.productname}</h3>
             <p className="text-gray-600 text-sm mb-2">{product.productdescription}</p>
             <span className="text-indigo-600 font-bold text-lg mb-4">
-              ${product.productprice}
+              ₹{product.productprice}
             </span>
             <button
               onClick={(e) => {
@@ -162,5 +171,6 @@ export default function Homepage() {
     </div>
   );
 }
+
 
 

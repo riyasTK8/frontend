@@ -1,9 +1,11 @@
+// src/AdminPages/Allorders.jsx
 import React, { useEffect, useState } from 'react';
 import Api from '../global/Apiinstance.jsx';
 import Slidebar from './SideBar';
 
 export default function Allorders() {
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchOrders();
@@ -12,9 +14,9 @@ export default function Allorders() {
   const fetchOrders = async () => {
     try {
       const { data } = await Api.get("/admin/findallorders");
-      
-      // ✅ Sanitize each order to ensure items is always an array
-      const safeOrders = (data.allorders || []).map(order => ({
+
+      // ✅ Safely map only if data?.allorders exists
+      const safeOrders = (data?.allorders || []).map(order => ({
         ...order,
         items: Array.isArray(order.items) ? order.items : []
       }));
@@ -22,6 +24,8 @@ export default function Allorders() {
       setOrders(safeOrders);
     } catch (error) {
       console.error("Failed to fetch orders:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -31,7 +35,7 @@ export default function Allorders() {
         await Api.put(`/admin/updateorder/${orderId}`, {
           orderStatus: "delivered"
         });
-        fetchOrders(); // refresh orders
+        fetchOrders(); // refresh orders after update
       } catch (error) {
         console.error("Update failed:", error);
       }
@@ -59,7 +63,13 @@ export default function Allorders() {
             </thead>
             <tbody className="text-sm text-gray-700">
 
-              {orders.length === 0 ? (
+              {loading ? (
+                <tr>
+                  <td colSpan="7" className="text-center py-6 text-gray-500">
+                    Loading orders...
+                  </td>
+                </tr>
+              ) : orders.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="text-center py-6 text-gray-500">
                     No orders found.
@@ -110,6 +120,7 @@ export default function Allorders() {
     </div>
   );
 }
+
 
 
 

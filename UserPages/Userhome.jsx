@@ -1,56 +1,61 @@
 import React, { useState, useEffect } from "react";
 import Carticon from '../src/assets/Icons/cart.png';
 import Api from "../global/Apiinstance.jsx";
-import { Link,useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 
-
 export default function Userhome() {
-    
-    const nav = useNavigate()
+  const nav = useNavigate();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
-  function details(id){
+
+  function details(id) {
     console.log(id);
-    
-    nav(`/showsingleproduct/${id}`)
-    
+    nav(`/showsingleproduct/${id}`);
   }
 
   useEffect(() => {
-    takeProducts()
-    findCategory()
-    fetchProductByCategory();
+    takeProducts();
+    findCategory();
+    // Removed fetchProductByCategory() call here as it requires an id
   }, []);
 
   const takeProducts = async () => {
-  
     try {
       const response = await Api.get("admin/showproducts");
-      setProducts(response.data.products);
-      console.log("Products fetched successfully");
+      if (response.data && Array.isArray(response.data.products)) {
+        setProducts(response.data.products);
+        console.log("Products fetched successfully");
+      } else {
+        setProducts([]);
+      }
     } catch (error) {
       console.log("Failed to fetch products", error);
     }
   };
 
-    const findCategory = async () => {
+  const findCategory = async () => {
     try {
       const response = await Api.get("/admin/showcategory");
-      setCategory(response.data.categories);
+      if (response.data && Array.isArray(response.data.categories)) {
+        setCategory(response.data.categories);
+      } else {
+        setCategory([]);
+      }
     } catch (error) {
       console.error("Can't fetch category", error);
     }
   };
 
-
-    const fetchProductByCategory = async (id) => {
+  const fetchProductByCategory = async (id) => {
     try {
       const response = await Api.get(`/user/findproductbycategory/${id}`);
-      setProducts(response.data.products);
-      console.log(response);
-      
+      if (response.data && Array.isArray(response.data.products)) {
+        setProducts(response.data.products);
+      } else {
+        setProducts([]);
+      }
       console.log("Products by category fetched successfully");
     } catch (error) {
       console.error("Failed to fetch products by category", error);
@@ -62,26 +67,24 @@ export default function Userhome() {
     setSelectedCategory(selectedId);
 
     if (selectedId === "") {
-      takeProducts(); 
+      takeProducts();
     } else {
-      fetchProductByCategory(selectedId); 
+      fetchProductByCategory(selectedId);
     }
   };
 
-
   return (
     <div className="bg-gray-100 font-sans min-h-screen">
-        <Navbar />
-      
+      <Navbar />
 
-            <div className="flex flex-wrap items-center space-x-4 px-6 mt-10 mb-8">
+      <div className="flex flex-wrap items-center space-x-4 px-6 mt-10 mb-8">
         <select
           onChange={handleCategoryChange}
           value={selectedCategory}
           className="border border-gray-300 bg-white text-gray-700 text-base font-medium px-2 py-1 rounded focus:outline-none cursor-pointer"
         >
           <option value="">All Categories</option>
-          {category.map((cat, index) => (
+          {category && category.map((cat, index) => (
             <option key={index} value={cat._id}>
               {cat.categoryname}
             </option>
@@ -89,17 +92,16 @@ export default function Userhome() {
         </select>
       </div>
 
-
       <div className="max-w-7xl mx-auto py-10 px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((element, index) => (
+        {products && products.map((element, index) => (
           <div
-             onClick={()=>{details(element._id)}}
+            onClick={() => { details(element._id); }}
             key={index}
-            className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col"
+            className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
           >
-          <img
+            <img
               src={`http://localhost:9000/${element.productimage}`}
-              
+              alt={element.productname}
               className="rounded-lg mb-4 object-cover h-40 w-full"
             />
             <h3 className="text-lg font-semibold mb-1">{element.productname}</h3>
@@ -116,4 +118,5 @@ export default function Userhome() {
     </div>
   );
 }
+
 

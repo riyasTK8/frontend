@@ -25,7 +25,7 @@ export default function ProductDetails() {
   const deleteProduct = async (id) => {
     try {
       await Api.delete(`/admin/deleteproduct/${id}`);
-      fetchProducts(); // Refresh the list
+      fetchProducts(); 
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -35,7 +35,7 @@ export default function ProductDetails() {
     <div className="flex bg-black min-h-screen">
       < Sidebar />
       <div className="flex flex-col w-full overflow-x-auto shadow-md sm:rounded-lg pt-12 px-6 bg-white">
-        {/* Add Product Button */}
+   
         <div className="flex justify-end mb-4">
           <button
             className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"

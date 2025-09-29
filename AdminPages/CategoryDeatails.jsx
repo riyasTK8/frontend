@@ -19,7 +19,7 @@ export default function CategoryDetails() {
       setCategories(res.data.categories || []);
       setError(null);
     } catch (err) {
-      console.error("Error fetching categories:", err);
+      console.error("error fetching categories:", err);
       setError("Failed to fetch categories.");
     } finally {
       setLoading(false);

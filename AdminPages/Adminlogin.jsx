@@ -1,4 +1,4 @@
-// src/AdminPages/AdminLogin.jsx
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Api from "../global/Apiinstance.jsx";

@@ -18,7 +18,7 @@ export default function Userhome() {
   useEffect(() => {
     takeProducts();
     findCategory();
-    // Removed fetchProductByCategory() call here as it requires an id
+ 
   }, []);
 
   const takeProducts = async () => {

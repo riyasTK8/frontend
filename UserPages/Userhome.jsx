@@ -99,11 +99,12 @@ export default function Userhome() {
             key={index}
             className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
           >
-            <img
-              src={`http://localhost:9000/${element.productimage}`}
-              alt={element.productname}
-              className="rounded-lg mb-4 object-cover h-40 w-full"
-            />
+           <img
+           src={`${IMAGE_BASE_URL}/${product.productimage}`}
+           alt={product.productname}
+           className="w-full md:w-1/2 h-96 object-cover"
+/>
+
             <h3 className="text-lg font-semibold mb-1">{element.productname}</h3>
             <p className="text-gray-600 text-sm mb-2">{element.productdescription}</p>
             <span className="text-indigo-600 font-bold text-lg mb-4">

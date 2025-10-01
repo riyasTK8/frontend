@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Api from "../global/Apiinstance.jsx";
 import CartIcon from "../src/assets/Icons/cart.png";
 import Navbar from "./Navbar";
-
+import { IMAGE_BASE_URL } from "../global/Apiinstance.jsx";
 export default function SingleProduct() {
   const { id } = useParams(); 
   const navigate = useNavigate();
@@ -54,11 +54,12 @@ export default function SingleProduct() {
      
 
       <div className="max-w-5xl mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden md:flex">
-        <img
-          src={`http://localhost:9000/${product.productimage}`}
-          alt={product.productname}
-          className="w-full md:w-1/2 h-96 object-cover"
-        />
+     <img
+       src={`${IMAGE_BASE_URL}/${product.productimage}`}
+       alt={product.productname}
+       className="w-full md:w-1/2 h-96 object-cover"
+/>
+
 
         <div className="p-6 md:w-1/2 flex flex-col justify-between">
           <div>

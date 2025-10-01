@@ -3,6 +3,7 @@ import Carticon from "../src/assets/Icons/cart.png";
 import LoginIcon from "../src/assets/Icons/Login.png";
 import Api from "../global/Apiinstance.jsx";
 import { useNavigate, Link } from "react-router-dom";
+import { IMAGE_BASE_URL } from "../global/Apiinstance.jsx";
 
 import Banner1 from "../src/assets/Icons/banner1.jpg";
 import Banner2 from "../src/assets/Icons/banner2.jpg";
@@ -137,11 +138,12 @@ export default function Homepage() {
             onClick={() => goToProductDetails(product._id)}
             className="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col cursor-pointer"
           >
-            <img
-              src={`http://localhost:9000/${product.productimage}`}
-              alt={product.productname}
-              className="rounded-lg mb-4 object-cover h-40 w-full"
-            />
+             <img
+        src={`${IMAGE_BASE_URL}/${product.productimage}`}
+        alt={product.productname}
+        className="rounded-lg mb-4 object-cover h-40 w-full"
+/>
+
             <h3 className="text-lg font-semibold mb-1">{product.productname}</h3>
             <p className="text-gray-600 text-sm mb-2">{product.productdescription}</p>
             <span className="text-indigo-600 font-bold text-lg mb-4">

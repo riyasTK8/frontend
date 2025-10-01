@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./SideBar";
 import Api from "../global/Apiinstance.jsx";
+import { IMAGE_BASE_URL } from "../global/Apiinstance.jsx";
 
 export default function ProductDetails() {
   const [products, setProducts] = useState([]);
@@ -75,11 +76,11 @@ export default function ProductDetails() {
                     ₦{Number(product.productprice).toLocaleString()}
                   </td>
                   <td className="px-6 py-4">
-                    <img
-                      src={`http://localhost:9000/${product.productimage}`}
-                      alt={product.productname}
-                      className="w-16 h-16 object-cover rounded"
-                    />
+                <img
+                src={`${IMAGE_BASE_URL}/${product.productimage}`}
+                alt={product.productname}
+                className="w-16 h-16 object-cover rounded"
+/>
                   </td>
                   <td className="px-6 py-4">{product.category || "N/A"}</td>
                   <td className="px-6 py-4">{product.productcategory}</td>

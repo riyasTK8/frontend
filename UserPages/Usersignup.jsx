@@ -153,7 +153,7 @@ export default function Usersignup() {
                   
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
-                  Login here
+                  login here
                 </a>
               </p>
             </div>

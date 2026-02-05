@@ -41,44 +41,34 @@ export default function SingleProduct() {
       }
     }
   };
-
   const increaseQty = () => setQty(prev => prev + 1);
   const decreaseQty = () => setQty(prev => (prev > 1 ? prev - 1 : 1));
-
   if (loading) return <p className="text-center py-10">Loading product...</p>;
   if (!product) return <p className="text-center text-red-500 py-10">Product not found.</p>;
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans">
         <Navbar />
-     
-
-      <div className="max-w-5xl mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden md:flex">
+     <div className="max-w-5xl mx-auto mt-10 bg-white rounded-lg shadow-md overflow-hidden md:flex">
      <img
        src={`${IMAGE_BASE_URL}/${product.productimage}`}
        alt={product.productname}
        className="w-full md:w-1/2 h-96 object-cover"
 />
-
-
-        <div className="p-6 md:w-1/2 flex flex-col justify-between">
+         <div className="p-6 md:w-1/2 flex flex-col justify-between">
           <div>
             <h1 className="text-2xl font-bold mb-2">{product.productname}</h1>
             <p className="text-gray-600 mb-4">{product.productdescription}</p>
             <p className="text-indigo-600 text-xl font-bold">₹{product.productprice}</p>
           </div>
-
-          <div className="mt-6 flex items-center space-x-4">
+            <div className="mt-6 flex items-center space-x-4">
             <div className="flex items-center border rounded px-3 py-1 space-x-3">
               <button onClick={decreaseQty} className="text-lg font-bold px-2 text-gray-600 hover:text-black">-</button>
               <span className="text-lg">{qty}</span>
               <button onClick={increaseQty} className="text-lg font-bold px-2 text-gray-600 hover:text-black">+</button>
-            </div>
-
-            <button
+            </div><button
               onClick={handleAddToCart}
-              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-            >
+              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
               Add to Cart
             </button>
           </div>

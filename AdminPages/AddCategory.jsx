@@ -43,8 +43,11 @@ export default function AddCategory() {
               value={categoryname}
               onChange={(e) => setCategoryName(e.target.value)}
               placeholder="Enter category name"
+
+              
               className="w-full p-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
+              
             />
           </div>
 
